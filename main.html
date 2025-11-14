@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="https://cdn.glitch.global/4985faea-5bdf-4c3a-8646-c8bb5ff99bf7/c6a2b510-ea06-40c6-a6b2-916fb403434a.image.png?v=1740822348539">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>trsites - Elite Web Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #000000;
+            --text-light: #FFFFFF;
+            --text-dim: #9CA3AF;
+            --accent-gray: #1E293B;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-dark);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .splash-text {
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+            color: var(--text-light);
+            text-align: center;
+        }
+
+        .main-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+            animation-delay: 0.2s;
+        }
+
+        .subtitle {
+            font-size: 1.75rem;
+            font-weight: 400;
+            position: relative;
+            animation-delay: 1.0s;
+            padding-bottom: 5px;
+        }
+
+        .subtitle::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background-color: var(--text-light);
+            animation: drawLine 0.5s ease-out 1.8s forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes drawLine {
+            to { width: 100%; }
+        }
+
+        .hidden-content {
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.5s ease-in, visibility 0s 0.5s;
+        }
+        
+        .visible-content {
+            visibility: visible;
+            opacity: 1;
+            transition: opacity 0.5s ease-in;
+        }
+
+        .glass-nav {
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(52, 52, 52, 0.3);
+            width: calc(100% - 2rem); 
+            max-width: 90%; 
+        }
+        
+        #nav-menu {
+            position: absolute;
+            top: 100%; 
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.9);
+            border: 1px solid rgba(52, 52, 52, 0.3);
+            border-radius: 0 0 0.5rem 0.5rem;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
+            padding: 0.5rem 0;
+            flex-direction: column;
+            width: 150px; 
+            z-index: 900;
+        }
+        
+        @media (max-width: 767px) {
+            #nav-links-container {
+                display: none; 
+            }
+            .nav-highlight {
+                display: none; 
+            }
+            .glass-nav {
+                max-width: 100%;
+                border-radius: 9999px;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            #hamburger-button {
+                display: none;
+            }
+            #nav-links-container {
+                display: flex !important; 
+            }
+        }
+
+        .hero-title-gradient {
+            background-image: linear-gradient(90deg, #E5E7EB, #A0AEC0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-highlight {
+            position: absolute;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 9999px;
+            transition: left 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                        width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            z-index: 10;
+        }
+
+        .service-card {
+            transition: all 0.3s ease;
+        }
+        .service-card:hover {
+            border-color: #6B7280;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .bg-white.text-gray-900 {
+            background-color: #FFFFFF;
+            color: #000000;
+        }
+        .hover\:bg-gray-200:hover {
+            background-color: #E5E7EB;
+        }
+
+        .bg-gray-700.text-white {
+            background-color: #374151;
+            color: #FFFFFF;
+        }
+        .hover\:bg-gray-600:hover {
+            background-color: #4B5563;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+<div id="splash-screen">
+    <h1 class="splash-text main-title">trsites</h1>
+    <p class="splash-text subtitle">Secure, Stable, Fast</p>
+</div>
+
+<div id="main-content" class="hidden-content">
+
+<nav class="fixed top-5 left-1/2 -translate-x-1/2 z-50 flex justify-between items-center py-3 px-6 glass-nav rounded-full shadow-lg max-w-xl w-full">
+    <a href="#home" class="text-xl font-extrabold text-white tracking-widest" onclick="showPage('home')">trsites</a>
+    
+    <ul id="nav-links-container" class="hidden md:flex gap-4 relative">
+        <div id="nav-highlight" class="nav-highlight"></div>
+        <li class="relative z-20"><a href="#home" data-page="home" class="nav-link py-2 px-4 text-gray-400 hover:text-white transition-colors duration-300 rounded-full active">Home</a></li>
+        <li class="relative z-20"><a href="#about" data-page="about" class="nav-link py-2 px-4 text-gray-400 hover:text-white transition-colors duration-300 rounded-full">About</a></li>
+        <li class="relative z-20"><a href="#projects" data-page="projects" class="nav-link py-2 px-4 text-gray-400 hover:text-white transition-colors duration-300 rounded-full">Work</a></li>
+        <li class="relative z-20"><a href="#contact" data-page="contact" class="nav-link py-2 px-4 text-gray-400 hover:text-white transition-colors duration-300 rounded-full">Contact</a></li>
+    </ul>
+
+    <button id="hamburger-button" class="md:hidden p-2 text-white hover:text-gray-300 focus:outline-none z-30" aria-label="Toggle navigation menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+    </button>
+    
+    <ul id="nav-menu" class="absolute top-full right-0 hidden">
+        <li><a href="#home" data-page="home" class="nav-link block px-4 py-2 text-gray-300 hover:bg-gray-800 transition-colors" onclick="showPage('home'); document.getElementById('nav-menu').classList.add('hidden');">Home</a></li>
+        <li><a href="#about" data-page="about" class="nav-link block px-4 py-2 text-gray-300 hover:bg-gray-800 transition-colors" onclick="showPage('about'); document.getElementById('nav-menu').classList.add('hidden');">About</a></li>
+        <li><a href="#projects" data-page="projects" class="nav-link block px-4 py-2 text-gray-300 hover:bg-gray-800 transition-colors" onclick="showPage('projects'); document.getElementById('nav-menu').classList.add('hidden');">Work</a></li>
+        <li><a href="#contact" data-page="contact" class="nav-link block px-4 py-2 text-gray-300 hover:bg-gray-800 transition-colors" onclick="showPage('contact'); document.getElementById('nav-menu').classList.add('hidden');">Contact</a></li>
+    </ul>
+</nav>
+
+<main class="pt-24">
+    
+    <section id="home" data-page="home" class="min-h-screen flex flex-col justify-center items-center px-4 pt-10">
+        <div class="max-w-5xl text-center">
+            <h1 class="text-6xl md:text-9xl font-extrabold mb-8 tracking-tighter hero-title-gradient leading-none">
+                Crafting Elite Digital Experiences
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto font-light mt-6">
+                Bespoke web solutions that define success. I build secure, stable, and lightning-fast websites designed for high performance and elite user experiences.
+            </p>
+            <button onclick="showPage('projects')" class="mt-12 px-10 py-3 bg-white text-gray-900 font-bold rounded-full shadow-2xl hover:bg-gray-200 transition-all duration-300 transform hover:scale-[1.03]">
+                Explore My Work &rarr;
+            </button>
+        </div>
+
+
+        <div class="container mx-auto mt-32 pb-24 px-4"> 
+            <h2 class="text-4xl font-extrabold text-center mb-16 hero-title-gradient">My Core Expertise</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <div class="service-card p-8 bg-gray-900/70 backdrop-blur-sm rounded-xl border border-gray-700">
+                    <h3 class="text-2xl font-bold mb-3 text-white">Bespoke Web Design</h3>
+                    <p class="text-gray-400 text-base">Crafting unique, visually stunning websites that capture your brand's essence and engage your exclusive clientele with superior UI/UX.</p>
+                </div>
+                    
+                <div class="service-card p-8 bg-gray-900/70 backdrop-blur-sm rounded-xl border border-gray-700">
+                    <h3 class="text-2xl font-bold mb-3 text-white">Performance & SEO</h3>
+                    <p class="text-gray-400 text-base">Optimizing for elite speed and search visibility, ensuring you're not just seen, but seen at the top of every major search engine.</p>
+                </div>
+                
+                <div class="service-card p-8 bg-gray-900/70 backdrop-blur-sm rounded-xl border border-gray-700">
+                    <h3 class="text-2xl font-bold mb-3 text-white">Security & Stability</h3>
+                    <p class="text-gray-400 text-base">Implementing enterprise-grade security protocols for robust stability and long-term digital peace of mind.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+    <section id="about" data-page="about" class="hidden min-h-screen flex flex-col justify-center items-center px-4 pt-10">
+        <div class="max-w-4xl mx-auto text-center py-20">
+            <h2 class="text-5xl font-extrabold mb-10 hero-title-gradient">My Philosophy & Process</h2>
+            
+            <p class="text-gray-400 text-xl mb-12 leading-relaxed font-light">
+                My work process emphasizes precision, transparency, and collaboration. I believe in quality over quantity, delivering elite solutions that stand the test of time and truly define success for my clients.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left mt-12">
+                <div class="bg-gray-900 p-6 rounded-lg border border-gray-800 service-card">
+                    <h3 class="text-2xl font-bold text-white mb-2">Discovery</h3>
+                    <p class="text-gray-500">Deep diving into your brand, audience, and technical requirements.</p>
+                </div>
+                <div class="bg-gray-900 p-6 rounded-lg border border-gray-800 service-card">
+                    <h3 class="text-2xl font-bold text-white mb-2">Development</h3>
+                    <p class="text-gray-500">Building with cutting-edge, clean, and optimized code standards.</p>
+                </div>
+                <div class="bg-gray-900 p-6 rounded-lg border border-gray-800 service-card">
+                    <h3 class="text-2xl font-bold text-white mb-2">Deployment</h3>
+                    <p class="text-gray-500">Seamless launch and continued high-performance optimization.</p>
+                </div>
+            </div>
+            
+            <button onclick="showPage('contact')" class="mt-16 px-10 py-3 bg-gray-700 text-white font-bold rounded-full shadow-lg hover:bg-gray-600 transition-all duration-300 transform hover:scale-[1.03]">
+                Start a Conversation &rarr;
+            </button>
+        </div>
+    </section>
+    
+
+    <section id="projects" data-page="projects" class="hidden min-h-screen flex flex-col items-center px-4 pt-20 pb-20">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="text-5xl font-extrabold mb-10 hero-title-gradient">Featured Work</h2>
+            <p class="text-gray-400 text-xl mb-16 max-w-3xl mx-auto font-light">
+                A selection of my high-impact work, demonstrating technical excellence and compelling design  More being added soon!.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+                <div class="bg-gray-900 rounded-xl shadow-xl overflow-hidden border border-gray-700 service-card">
+                    <div class="h-40 bg-gray-800 flex items-center justify-center text-gray-500 text-xl font-medium">
+                        Aesthetics By Rebekah
+                    </div>
+                    <div class="p-6 text-left">
+                        <h3 class="text-xl font-bold text-white mb-2"> Aesthetics By Rebekah</h3>
+                        <p class="text-gray-400 text-sm mb-4">Simple easy to use gorgeously designed website for skincare treatments</p>
+                        <a href="#" class="text-white hover:text-gray-300 font-medium text-sm transition-colors block mt-2"> <a href="https://aestheticsbyrebekah.com/">View</a>.</a>
+                    </div>
+                </div>
+   
+            <p class="text-gray-500 mt-16 text-sm col-span-full">
+                *Ready to see how I can elevate your project? <a href="#contact" onclick="showPage('contact')" class="text-white hover:text-gray-300 underline font-semibold">Contact Me.</a>
+            </p>
+        </div>
+    </section>
+
+
+    <section id="contact" data-page="contact" class="hidden min-h-screen flex flex-col justify-center items-center px-4 pt-20 pb-20">
+        <div class="max-w-xl w-full bg-gray-900/70 p-10 md:p-12 rounded-xl shadow-2xl border border-gray-700">
+            <h2 class="text-4xl font-extrabold mb-4 text-white">Let's Connect</h2>
+            <p class="text-gray-400 text-lg mb-8 font-light">
+                Tell me about your project. I typically respond within 48 hours.
+            </p>
+            
+            <form id="contactForm" class="space-y-6">
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-300 mb-1">Full Name</label>
+                    <input type="text" id="name" name="name" placeholder="John Doe" class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white focus:ring-gray-600 focus:border-gray-600 transition duration-200" required>
+                </div>
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-300 mb-1">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="you@company.com" class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white focus:ring-gray-600 focus:border-gray-600 transition duration-200" required>
+                </div>
+                <div>
+                    <label for="message" class="block text-sm font-medium text-gray-300 mb-1">Project Details</label>
+                    <textarea id="message" name="message" rows="5" placeholder="Describe your vision and requirements..." class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white focus:ring-gray-600 focus:border-gray-600 transition duration-200" required></textarea>
+                </div>
+                
+                <button type="submit" id="submitButton" class="w-full px-4 py-3 bg-white text-gray-900 font-extrabold rounded-lg hover:bg-gray-200 transition-all duration-300 transform hover:scale-[1.01] shadow-lg">
+                    Send Message
+                </button>
+            </form>
+            
+            
+            <div id="statusMessage" class="text-center mt-4 text-sm font-medium h-6"></div>
+
+            <div class="mt-10 text-center text-sm text-gray-500">
+                <p>or reach me directly at: <span class="font-semibold text-gray-300">contact@trsites.xyz</span></p>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer class="text-center py-10 border-t border-gray-800 mt-20">
+    <p class="text-gray-500 text-sm">&copy; 2025 trsites.xyz All rights reserved. | Made with love by tobyyy</p>
+</footer>
+
+</div>
+
+
+<script>
+    const splashScreen = document.getElementById('splash-screen');
+    const mainContent = document.getElementById('main-content');
+    const animationDuration = 2500; 
+
+    function hideSplashScreen() {
+        splashScreen.style.opacity = '0';
+        mainContent.classList.remove('hidden-content');
+        mainContent.classList.add('visible-content');
+
+        setTimeout(() => {
+            splashScreen.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            initializeNavHighlight();
+        }, 500);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.body.style.overflow = 'hidden';
+        setTimeout(hideSplashScreen, animationDuration);
+    });
+
+    const navLinksContainer = document.getElementById('nav-links-container');
+    const navHighlight = document.getElementById('nav-highlight');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainSections = document.querySelectorAll('main section');
+    const hamburgerButton = document.getElementById('hamburger-button');
+    const mobileMenu = document.getElementById('nav-menu');
+    
+    let activeLink = document.querySelector('.nav-link.active');
+
+    function setHighlight(el) {
+        if (!el || !navLinksContainer.contains(el)) return;
+        
+        const parentRect = navLinksContainer.getBoundingClientRect();
+        const elRect = el.getBoundingClientRect();
+
+        const offsetLeft = elRect.left - parentRect.left;
+
+        navHighlight.style.width = `${el.offsetWidth}px`;
+        navHighlight.style.left = `${offsetLeft}px`;
+    }
+    
+    function updateActiveLink(targetPage) {
+        let newActiveLink = null;
+        
+        navLinks.forEach(link => {
+            if (link.closest('#nav-links-container')) {
+                link.classList.remove('active', 'text-white');
+                link.classList.add('text-gray-400');
+            
+                if (link.getAttribute('data-page') === targetPage) {
+                    link.classList.add('active', 'text-white');
+                    link.classList.remove('text-gray-400');
+                    newActiveLink = link;
+                }
+            }
+        });
+
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.classList.remove('font-bold', 'bg-gray-800');
+            if (link.getAttribute('data-page') === targetPage) {
+                link.classList.add('font-bold', 'bg-gray-800');
+            }
+        });
+
+        if (window.innerWidth >= 768) {
+            activeLink = newActiveLink;
+            setHighlight(activeLink);
+        }
+    }
+
+    function showPage(targetPage) {
+        mainSections.forEach(section => {
+            if (section.getAttribute('data-page') === targetPage) {
+                section.classList.remove('hidden');
+                section.classList.add('flex');
+                
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                section.classList.add('hidden');
+                section.classList.remove('flex');
+            }
+        });
+        updateActiveLink(targetPage);
+        history.pushState(null, '', `#${targetPage}`);
+    }
+
+    function initializeNavHighlight() {
+        const hash = window.location.hash.substring(1) || 'home';
+        const initialPage = Array.from(navLinks).find(link => link.getAttribute('data-page') === hash) ? hash : 'home';
+        
+        showPage(initialPage);
+        
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768) {
+                setHighlight(activeLink);
+            }
+        });
+    }
+    
+    navLinksContainer.querySelectorAll('.nav-link').forEach(link => {
+        const pageId = link.getAttribute('data-page');
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage(pageId);
+        });
+        link.addEventListener('mouseenter', () => setHighlight(link));
+    });
+
+    navLinksContainer.addEventListener('mouseleave', () => {
+        if (window.innerWidth >= 768) {
+            setHighlight(activeLink);
+        }
+    });
+
+    hamburgerButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+
+    mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+        });
+    });
+    
+
+    const contactForm = document.getElementById('contactForm');
+    const submitButton = document.getElementById('submitButton');
+    const statusMessage = document.getElementById('statusMessage');
+
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        submitButton.textContent = 'Sending...';
+        submitButton.disabled = true;
+        submitButton.classList.add('opacity-50');
+        statusMessage.textContent = 'Preparing email...';
+        statusMessage.className = 'text-center mt-4 text-sm font-medium text-gray-400 h-6';
+
+        const formData = new FormData(contactForm);
+        const data = Object.fromEntries(formData.entries());
+
+        const API_ENDPOINT = '/api/send-email';
+
+        try {
+            const response = await fetch(API_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                statusMessage.textContent = 'Message Sent Successfully! I will be in touch shortly.';
+                statusMessage.className = 'text-center mt-4 text-sm font-medium text-green-400 h-6';
+                contactForm.reset();
+            } else {
+                const errorData = await response.json().catch(() => ({ message: 'Server error occurred.' }));
+                statusMessage.textContent = `Error: ${errorData.message || 'Could not send message.'}`;
+                statusMessage.className = 'text-center mt-4 text-sm font-medium text-red-400 h-6';
+            }
+        } catch (error) {
+            console.error('Submission failed:', error);
+            statusMessage.textContent = 'Network error. Please ensure your Cloudflare Worker is running.';
+            statusMessage.className = 'text-center mt-4 text-sm font-medium text-red-400 h-6';
+        } finally {
+            submitButton.textContent = 'Send Message';
+            submitButton.disabled = false;
+            submitButton.classList.remove('opacity-50');
+            
+            setTimeout(() => {
+                statusMessage.textContent = '';
+                statusMessage.className = 'text-center mt-4 text-sm font-medium h-6';
+            }, 5000);
+        }
+    });
+</script>
+</body>
+</html>
