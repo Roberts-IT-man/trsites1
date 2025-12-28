@@ -23,8 +23,6 @@
             min-height: 100vh;
             overflow-x: hidden;
         }
-
-        /* --- SPLASH SCREEN & ROCKET ANIMATION --- */
         #splash-screen {
             position: fixed;
             top: 0;
@@ -62,8 +60,6 @@
             padding-bottom: 10px;
             display: inline-block;
         }
-
-        /* The Trail */
         .subtitle::after {
             content: '';
             position: absolute;
@@ -74,8 +70,6 @@
             background: linear-gradient(90deg, transparent, var(--text-light));
             animation: drawLine 1.2s cubic-bezier(0.4, 0, 0.2, 1) 1.8s forwards;
         }
-
-        /* The Rocket */
         .rocket-icon {
             position: absolute;
             bottom: -8px;
@@ -100,8 +94,6 @@
             90% { opacity: 1; }
             100% { left: 100%; opacity: 0; transform: rotate(45deg) translate(10px, -10px); }
         }
-
-        /* --- CONTENT STYLES --- */
         .hidden-content {
             visibility: hidden;
             opacity: 0;
@@ -292,7 +284,7 @@
 <script>
     const splashScreen = document.getElementById('splash-screen');
     const mainContent = document.getElementById('main-content');
-    const animationDuration = 3500; // Increased slightly for rocket effect
+    const animationDuration = 3500; 
 
     function hideSplashScreen() {
         splashScreen.style.opacity = '0';
